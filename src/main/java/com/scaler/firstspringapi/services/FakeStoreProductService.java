@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-@Service
+@Service("fakeStoreProductService")
 public class FakeStoreProductService implements ProductService{
     private RestTemplate restTemplate;
     public FakeStoreProductService(RestTemplate restTemplate){
@@ -31,7 +31,7 @@ public class FakeStoreProductService implements ProductService{
         product.setDescription(fakeStoreServiceProductDTO.getDescription());
 
         Category category = new Category();
-        category.setDescription(fakeStoreServiceProductDTO.getCategory());
+        category.setTitle(fakeStoreServiceProductDTO.getCategory());
 
         product.setCategory(category);
 
@@ -61,13 +61,18 @@ public class FakeStoreProductService implements ProductService{
     }
 
     @Override
+    public List<Product> getAllProductsByCategory(Long id) {
+        return null;
+    }
+
+    @Override
     public ResponseEntity<Product> replaceProduct(Long id,Product product) {
         FakeStoreServiceProductDTO fakeStoreServiceProductDTO = new FakeStoreServiceProductDTO();
         fakeStoreServiceProductDTO.setDescription(product.getDescription());
         fakeStoreServiceProductDTO.setTitle(product.getTitle());
         fakeStoreServiceProductDTO.setPrice(product.getPrice());
         fakeStoreServiceProductDTO.setImage(product.getImage());
-        fakeStoreServiceProductDTO.setCategory(product.getCategory().getDescription());
+        fakeStoreServiceProductDTO.setCategory(product.getCategory().getTitle());
         RequestCallback requestCallback
                 = restTemplate.httpEntityCallback(fakeStoreServiceProductDTO, FakeStoreServiceProductDTO.class);
         HttpMessageConverterExtractor<FakeStoreServiceProductDTO> responseExtractor
@@ -104,5 +109,20 @@ public class FakeStoreProductService implements ProductService{
         List<String> categoryList = new ArrayList<>();
         categoryList.add(Arrays.toString(categories));
         return categoryList;
+    }
+
+    @Override
+    public void deleteProduct() {
+
+    }
+
+    @Override
+    public Product createProduct(Product product) {
+        return null;
+    }
+
+    @Override
+    public Product updateProduct(Long id, Product product) {
+        return null;
     }
 }

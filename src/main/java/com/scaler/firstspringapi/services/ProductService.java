@@ -13,9 +13,17 @@ public interface ProductService {
 
     List<Product> getAllProducts();
 
+    List<Product> getAllProductsByCategory(Long id);
+
     ResponseEntity<Product> replaceProduct(Long id,Product product);
 
     ResponseEntity<List<Product>> getCategoryByName(String name);
 
     List<String> getAllCategories();
+
+    void deleteProduct();
+
+    Product createProduct(Product product);
+
+    Product updateProduct(Long id,Product product);
 }

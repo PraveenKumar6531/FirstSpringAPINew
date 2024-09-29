@@ -4,6 +4,7 @@ import com.scaler.firstspringapi.exceptions.ProductNotFoundException;
 import com.scaler.firstspringapi.models.Category;
 import com.scaler.firstspringapi.models.Product;
 import com.scaler.firstspringapi.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
     private ProductService productService;
-    public ProductController(ProductService productService){
+    public ProductController(@Qualifier("selfProductService") ProductService productService){
         this.productService = productService;
     }
     @GetMapping("/{id}")
@@ -24,6 +25,11 @@ public class ProductController {
     @GetMapping
     public List<Product> getAllProducts(){
         return productService.getAllProducts();
+    }
+
+    @GetMapping("/cat/{categoryId}")
+    public List<Product> getAllProducts(@PathVariable("categoryId")  Long categoryId){
+        return productService.getAllProductsByCategory(categoryId);
     }
 
     @PutMapping("/{id}")
@@ -38,5 +44,9 @@ public class ProductController {
     @GetMapping("/categories")
     public List<String> getAllCategories(){
         return productService.getAllCategories();
+    }
+    @PostMapping
+    public Product createProduct(@RequestBody Product product){
+        return productService.createProduct(product);
     }
 }
